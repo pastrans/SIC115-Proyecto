@@ -1,0 +1,136 @@
+{% extends 'base.html' %}
+
+
+{% block typeofbody %}
+<body>
+{% endblock %}
+{% block typeofheader %}
+  <header id="header">
+{% endblock %}
+{% block navbar %}
+<ul>
+  <li><a href="/">Inicio</a></li>
+  <li><a href="/catalogo">Catalogo Cuentas</a></li>
+  <li><a href="/periodoConta">Periodos</a></li>
+  <li>
+    <a href="/settings" class="icon fa-angle-down">Configuracion</a>
+    <ul>
+      <li><a href="/settings/password">Contrasenia</a></li>
+    </ul>
+  </li>
+<li><a href="/logout" class="button">Cerrar Sesion</a></li>
+</ul>
+{% endblock %}
+{% block content %}
+
+<section id="main" class="container">
+  <div class="row">
+    <div class="12u">
+      {% if messages %}
+      {% for message in messages %}
+      {% if message.tags == 'success' %}
+      <p style="color: green"> <u>{{ message }}</u></p>
+          {% else %}
+      <p style="color: red"><u>{{ message }}</u> </p>
+      {% endif %}
+      {% endfor %}
+      {% endif %}
+      {% for error in form.non_field_errors %}
+      <div class="alert alert-danger" >
+        <strong style="color: red">{{ error|escape }}</strong>
+      </div>
+      {% endfor %}
+      <!-- Table -->
+        <section class="box">
+          <div class="card-header">
+              <i class="fa fa-search"></i> <h3>Consultar transacciones</h3>
+          </div>
+
+          <div class="table-wrapper">
+						<table>
+							<tr>
+								<th>Planilla Mensual del Empleado:  {{emp.nombreEmpleado}} {{emp.apellidoEmpleado}} </th>
+							</tr>
+
+						</table>
+						<table>
+						<tc>
+								<tr>
+									<td>
+										AFP
+									</td>
+									<td>
+									<input type="number" name="afp" step="0.1" readonly="readonly" value="{{planillaGeneral.AFP_general}}">
+									</td>
+								</tr>
+						</tc>
+						<tc>
+								<tr>
+									<td>
+										ISSS
+									</td>
+									<td>
+									<input type="number" name="afp" step="0.1" readonly="readonly" value="{{planillaGeneral.ISSS_general}}">
+									</td>
+								</tr>
+						</tc>
+						<tc>
+								<tr>
+									<td>
+										Vacaciones
+									</td>
+									<td>
+										<input type="number" name="afp" step="0.1" readonly="readonly" value="{{planillaGeneral.vacaciones}}">
+									</td>
+								</tr>
+						</tc>
+						<tc>
+								<tr>
+									<td>
+										INSAFORP
+									</td>
+									<td>
+										<input type="number" name="afp" step="0.1" readonly="readonly" value="{{planillaGeneral.insaforp}}">
+									</td>
+								</tr>
+						</tc>
+						<tc>
+								<tr>
+									<td>
+										Aguinaldo
+									</td>
+									<td>
+										<input type="number" name="afp" step="0.1" readonly="readonly" value="{{planillaGeneral.aguinaldo}}">
+									</td>
+								</tr>
+						</tc>
+						<tc>
+								<tr>
+									<td>
+										Salario Base:
+									</td>
+									<td>
+										<input type="number" name="afp" step="0.1" readonly="readonly" value="{{planillaGeneral.salarioNominal}}">
+									</td>
+								</tr>
+						</tc>
+
+						<tc>
+								<tr>
+									<td>
+										Salario Total:
+									</td>
+									<td>
+										<input type="number" name="afp" step="0.1" readonly="readonly" value="{{planillaGeneral.salarioTotal}}">
+									</td>
+								</tr>
+						</tc>
+						</table>
+          </div>
+					<a href="/planillaGeneral/{{periodoId}}" class="button special small">Regresar</a>
+        </section>
+
+    </div>
+  </div>
+</section>
+{% endblock content %}

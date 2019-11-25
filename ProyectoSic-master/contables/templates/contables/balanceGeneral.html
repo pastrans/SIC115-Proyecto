@@ -1,0 +1,138 @@
+{% extends 'base.html' %}
+{% block typeofbody %}
+<body>
+{% endblock %}
+{% block typeofheader %}
+  <header id="header">
+{% endblock %}
+{% block head %}
+<script type="text/javascript">
+function printDiv(nombreDiv) {
+     var contenido= document.getElementById(nombreDiv).innerHTML;
+     var contenidoOriginal= document.body.innerHTML;
+
+     document.body.innerHTML = contenido;
+
+     window.print();
+
+     document.body.innerHTML = contenidoOriginal;
+}
+</script>
+{% endblock %}
+
+{% block navbar %}
+<ul>
+  <li><a href="/">Inicio</a></li>
+  <li><a href="/catalogo">Catalogo Cuentas</a></li>
+  <li><a href="/periodoConta">Periodos</a></li>
+  <li>
+    <a href="/settings" class="icon fa-angle-down">Configuracion</a>
+    <ul>
+      <li><a href="/settings/password">Contrasenia</a></li>
+    </ul>
+  </li>
+<li><a href="/logout" class="button">Cerrar Sesion</a></li>
+</ul>
+{% endblock %}
+{% block content %}
+
+
+<section id="main" class="container">
+  <div class="row" >
+    <div class="12u" id="areaImprimir">
+      <!-- Table -->
+
+          <div class="card-header">
+            <h2 style="text-align:center;">Vega Camisetas y diseño</h2>
+            <h4 style="text-align:center;">Periodo al {{periodo.fechaFin}} </h4>
+            <h3 style="text-align:center;"> <i class="fa fa-list"></i>Balance General</h3>
+          </div>
+
+          <div class="table-wrapper">
+						<table>
+							<tr>
+								<td>
+									<table>
+										<tr>
+											<td><h3>Activos Corrientes:</h3></td>
+										</tr>
+										<tr>
+											<td>Cuenta</td>
+											<td>Total</td>
+										</tr>
+										<tr>
+											{% for activo in activos%}
+											<td>{{activo.nombre}}</td>
+											<td>{{activo.saldoDeudor}}</td>
+										</tr>
+										{% endfor %}
+										<tr>
+											<td></td>
+						        			<td>_____</td>
+						    			</tr>
+						    			<tr>
+						    				{% for cap in estadoGral%}
+						    				<td>Total</td>
+						    				<td>{{cap.debe}}</td>
+						    				</tr>
+						    				{% endfor %}
+									</table>
+								</td>
+								<td>
+									<table>
+										<tr>
+											<td><h3>Pasivos Corrientes:</h3></td>
+										</tr>
+										<tr>
+											<td>Cuenta</td>
+											<td>Total</td>
+										</tr>
+										<tr>
+											{% for pasivo in pasivos%}
+											<td>{{pasivo.nombre}}</td>
+											<td>{{pasivo.saldoAcreedor}}</td>
+										</tr>
+										{% endfor %}
+										<tr>
+											<td><h3>Capital:</h3></td>
+										</tr>
+										<tr>
+											<td>Cuenta</td>
+											<td>Total</td>
+										</tr>
+										<tr>
+											{% for capital in cap %}
+											<td>Capital</td>
+											<td>{{capital.capitalContable}}</td>
+										</tr>
+											{% endfor %}
+										<tr>
+											{% for capital in cap %}
+											<td>Utilidades Retenidas</td>
+											<td>{{capital.UtilidadRetenida}}</td>
+										</tr>
+											{% endfor %}
+										<tr>
+											<td></td>
+						        			<td>_____</td>
+						    			</tr>
+						    			<tr>
+						    				{% for cap in estadoGral%}
+						    				<td>Total</td>
+						    				<td>{{cap.haber}}</td>
+						    				</tr>
+						    				{% endfor %}
+									</table>
+								</td>
+							</tr>
+						</table>
+          </div>
+
+        </section>
+    </div>
+    <input type="button" onclick="printDiv('areaImprimir')" value="Imprimir Balance General" />
+    <a href="/generador/{{periodoId}}" class="button special">Regresar</a>
+  </div>
+
+</section>
+{% endblock content %}

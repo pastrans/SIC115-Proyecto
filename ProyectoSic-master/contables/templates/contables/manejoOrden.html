@@ -1,0 +1,109 @@
+{% extends 'base.html'%}
+
+{% block head %}
+<script type="text/javascript">
+function cerrarOrden(){
+    $(document).ready(function() {
+        $('#enviar').click(function(e){
+            e.preventDefault();
+            var dataString = $('#form-control').serialize();
+            $.ajax({
+                type: "POST",
+                url: '',
+                data: dataString,
+                success: function(data) {
+                window.location.replace("");
+                }
+            });
+        });
+    });
+}
+</script>
+{% endblock head %}
+{% block typeofbody %}
+<body>
+{% endblock %}
+{% block typeofheader %}
+  <header id="header">
+{% endblock %}
+{% block navbar %}
+<ul>
+  <li><a href="/">Inicio</a></li>
+  <li><a href="/catalogo">Catalogo Cuentas</a></li>
+  <li><a href="/periodoConta">Periodos</a></li>
+  <li>
+    <a href="/settings" class="icon fa-angle-down">Configuracion</a>
+    <ul>
+      <li><a href="/settings/password">Contrasenia</a></li>
+    </ul>
+  </li>
+<li><a href="/logout" class="button">Cerrar Sesion</a></li>
+</ul>
+{% endblock %}
+{% block content %}
+
+<section id="main" class="container">
+  <header>
+    <h2> Manejo De Ordenes De Fabricacion</h2>
+    <p> Coloque los valores correctamente</p>
+  </header>
+  <section class="box">
+    <div class="row">
+       {%for per in period%}
+        {% if per.estadoPeriodo == True%}
+        <a class="button" href="/crearOrden/{{periodoId}}">Crear Orden</a>
+        <a class="button"href="/modificarCIF/{{periodoId}}">Modificar CIF</a>
+        {% endif %}
+       {% endfor %}
+
+        <div class="table-wrapper">
+            <table class="table" id="dataTable" width="100%" cellspacing="0">
+              <thead>
+                <th>Orden</th>
+                <th>Fecha de creacion</th>
+                <th>Fecha de entrega</th>
+                <th>Estado</th>
+                <th>Gestionar</th>
+                <th>Cerrar</th>
+              </thead>
+              <tbody>
+              <tr>
+                  {% for ord in orden%}
+                  <td>{{ord.descripcion}}</td>
+                  <td>{{ord.fechaCreacion}}</td>
+                  <td>{{ord.fechaEntrega}}</td>
+                  {% if ord.terminado == True %}
+                  <td>Terminado</td>
+                  {% endif %}
+                  {% if ord.terminado == False %}
+                  <td>En Proceso</td>
+                  {% endif %}
+                  {% if ord.terminado == False%}
+                  <td><a class="button small" href="/gestionarOrden/{{ord.id}}/{{periodoId}}">Gestionar Orden</a></td>
+                  {% endif %}
+                  {% if ord.terminado == True%}
+                  <td><a class="button small" href="/productoTerminado/{{ord.id}}/{{periodoId}}">Gestionar Producto Terminado</a></td>
+                  {% endif %}
+                  {% if ord.terminado == True %}
+                  {% endif %}
+                  {% if ord.terminado == False %}
+                  <td>
+                       <form id="form-control1" method="POST">
+                            {%csrf_token%}
+                            <button type="submit"  onclick="cerrarOrden()" class="button" name="enviar" id="enviar">Cerrar Orden</button>
+                            <input type="hidden" name="idorden" value="{{ord.id}}">
+                      </form>
+                  </td>
+                  {% endif %}
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+          </div>
+      </div>
+    <div class="row">
+      <a href="/contabilidadCostos/{{periodoId}}" class="button special small">Regresar</a>
+    </div>
+  </section>
+</section>
+{% endblock content %}

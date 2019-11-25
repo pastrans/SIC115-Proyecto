@@ -1,0 +1,64 @@
+ {% extends 'base.html' %}
+
+  {% block title %}
+  <title>Contabilidad general</title>
+  {% endblock title %}
+  {% block typeofbody %}
+  <body>
+  {% endblock %}
+  {% block typeofheader %}
+    <header id="header">
+  {% endblock %}
+  {% block navbar %}
+  <ul>
+    <li><a href="/">Inicio</a></li>
+    <li><a href="/catalogo">Catalogo Cuentas</a></li>
+    <li><a href="/periodoConta">Periodos</a></li>
+    <li>
+      <a href="/settings" class="icon fa-angle-down">Configuracion</a>
+      <ul>
+        <li><a href="/settings/password">Contrasenia</a></li>
+      </ul>
+    </li>
+  <li><a href="/logout" class="button">Cerrar Sesion</a></li>
+  </ul>
+  {% endblock %}
+  {% block content %}
+
+  <section id="main" class="container">
+    <header>
+      <h2>Menu</h2>
+      <p>Realice una de las siguientes acciones</p>
+    </header>
+
+    <section class="box special features">
+      <div class="features-row">
+        <section>
+          <span class="icon major fa-bolt accent2"></span>
+          <h3>Contabilidad General</h3>
+          <p>Realice acciones de la contabilidad general</p>
+          <ul class="actions vertical">
+            <li><a class="button small" href="/contabilidadGeneral/{{periodoId}}">IR</a></li>
+          </ul>
+        </section>
+
+        <section>
+          <span class="icon major fa-area-chart accent3"></span>
+          <h3>Contabilidad de Costos</h3>
+          <p>Realices acciones de la contabilidad de costos</p>
+          <ul class="actions vertical">
+            <li><a class="button small" href="/contabilidadCostos/{{periodoId}}">IR</a></li>
+          </ul>
+        </section>
+      </div>
+      <br />
+      <div class="row">
+        <div class="12u">
+          <ul class="actions vertical">
+            <li><a class="button small special" href="/periodoConta">Regresar</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+  {% endblock content %}

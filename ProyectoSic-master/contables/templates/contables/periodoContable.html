@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+
+  {% block title %}
+  <title>Listado de periodos contables</title>
+  {% endblock title %}
+
+{% block head%}
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#enviar').click(function(e){
+            e.preventDefault();
+                var dataString = $('#form-control').serialize();
+
+
+            $.ajax({
+                type: "POST",
+                url: '',
+                data: dataString,
+                success: function(data) {
+                window.location.replace("");
+                }
+            });
+        });
+    });
+</script>
+{% endblock head%}
+
+{% block typeofbody %}
+<body>
+{% endblock %}
+{% block typeofheader %}
+  <header id="header">
+{% endblock %}
+{% block navbar %}
+<ul>
+  <li><a href="/">Inicio</a></li>
+  <li><a href="/catalogo">Catalogo Cuentas</a></li>
+  <li><a href="/periodoConta">Periodos</a></li>
+  <li>
+    <a href="/settings" class="icon fa-angle-down">Configuracion</a>
+    <ul>
+      <li><a href="/settings/password">Contrasenia</a></li>
+    </ul>
+  </li>
+<li><a href="/logout" class="button">Cerrar Sesion</a></li>
+</ul>
+{% endblock %}
+{% block content %}
+
+<section id="main" class="container">
+  <div class="row">
+    <div class="12u">
+      {% if messages %}
+      {% for message in messages %}
+      {% if message.tags == 'success' %}
+      <p style="color: green"> <u>{{ message }}</u></p>
+          {% else %}
+      <p style="color: red"><u>{{ message }}</u> </p>
+      {% endif %}
+      {% endfor %}
+      {% endif %}
+      {% for error in form.non_field_errors %}
+      <div class="alert alert-danger" >
+        <strong style="color: red">{{ error|escape }}</strong>
+      </div>
+      {% endfor %}
+      <!-- Table -->
+        <section class="box">
+            <ul class="actions">
+          <li><a href="/" class="button special">Regresar</a></li>
+          {% if cant == 0 %}
+
+
+            <li><a class="button special" href="nuevoPeriodo/">Agregar periodo contable</a></li>
+
+
+         {% endif %}
+         </ul>
+          <div class="card-header">
+              <i class="fa fa-list"></i><h4>Periodos Contables</h4>
+          </div>
+
+          <div class="table-wrapper">
+            <table class="alt" id="dataTable" width="100%" cellspacing="0">
+              <thead>
+                <tr>
+                  <th><b>Fecha inicio</b></th>
+                  <th><b></b>Fecha fin</th>
+                  <th> <b>Ver</b></th>
+                  <th><b>Estado</b></th>
+                  <th><b>Cerrar Periodo</b></th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for periodo in periodoCont %}
+                <tr>
+                  <td>{{periodo.fechaInicio}}</td>
+                  <td>{{periodo.fechaFin}}</td>
+                  <td><a href="/menu/{{periodo.id_periodoContable}}">Ir</a></td>
+                  {%if periodo.estadoPeriodo == True%}
+                  <td>Activo</td>
+                  {% endif %}
+                  {%if periodo.estadoPeriodo == False%}
+                  <td>Cerrado</td>
+                  {% endif %}
+                  {%if periodo.estadoPeriodo == False%}
+                  <td>
+                        <button disabled hidden="hidden" type="submit" class="btn btn-outline-primary" name="enviar" id="enviar">Cerrar periodo</button>
+                        <input type="hidden" name="idperiodo" value="{{periodo.id_periodoContable}}">
+                  </td>
+                  {% endif %}
+                  {%if periodo.estadoPeriodo == True%}
+                  <td>
+                    <form id="form-control" method="POST">
+                      {%csrf_token%}
+                      <button type="submit" class="btn btn-outline-primary" name="enviar" id="enviar">Cerrar periodo</button>
+                      <input type="hidden" name="idperiodo" value="{{periodo.id_periodoContable}}">
+                    </form>
+                  </td>
+                  {% endif %}
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+    </div>
+  </div>
+</section>
+{% endblock content %}

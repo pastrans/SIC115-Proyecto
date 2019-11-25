@@ -1,0 +1,79 @@
+ {% extends 'base.html' %}
+
+  {% block title %}
+  <title>Contabilidad general</title>
+  {% endblock title %}
+
+
+  {% block typeofbody %}
+  <body>
+  {% endblock %}
+  {% block typeofheader %}
+    <header id="header">
+  {% endblock %}
+
+  {% block navbar %}
+  <ul>
+    <li><a href="/">Inicio</a></li>
+    <li><a href="/catalogo">Catalogo Cuentas</a></li>
+    <li><a href="/periodoConta">Periodos</a></li>
+    <li>
+      <a href="/settings" class="icon fa-angle-down">Configuracion</a>
+      <ul>
+        <li><a href="/settings/password">Contrasenia</a></li>
+      </ul>
+    </li>
+  <li><a href="/logout" class="button">Cerrar Sesion</a></li>
+  </ul>
+  {% endblock %}
+  {% block content %}
+
+  <section id="main" class="container">
+    <header>
+      <h2>Contabilidad General</h2>
+      <p> Seleccione una de las siguientes acciones</p>
+    </header>
+
+    <section class="box special features">
+      <div class="features-row">
+        <section>
+          <span class="icon major fa-bolt accent2"></span>
+          <h3>Consulte Transacciones</h3>
+          <p>Consulte todas las transaciones hechas en el periodo</p>
+          <ul class="actions vertical">
+            <li><a class="button small" href="/consulta/{{periodoId}}">IR</a></li>
+          </ul>
+        </section>
+
+        <section>
+          <span class="icon major fa-area-chart accent3"></span>
+          <h3>Generar Estados Financieros</h3>
+          <p>Genere Estados Financieros del periodo</p>
+          <ul class="actions vertical">
+            <li><a class="button small" href="/generador/{{periodoId}}">IR</a></li>
+          </ul>
+        </section>
+      </div>
+      <div class="features-row">
+        <section>
+          <span class="icon major fa-bolt accent2"></span>
+          <h3>Historial de Cuentas</h3>
+          <p>Vea el historial completo de Cuentas</p>
+          <ul class="actions vertical">
+            <li><a class="button small" href="/historial/{{periodoId}}">IR</a></li>
+          </ul>
+        </section>
+
+        <section>
+          <span class="icon major fa-area-chart accent2"></span>
+          <h3>Ingresar Transaccion</h3>
+          <p>Ingrese una nueva transaccion y su detalle</p>
+          <ul class="actions vertical">
+            <li><a class="button small" href="/transaccion/{{periodoId}}">IR</a></li>
+          </ul>
+        </section>
+      </div>
+      <a href="/menu/{{periodoId}}" class="button special small">Regresar</a>
+    </section>
+
+  {% endblock content %}

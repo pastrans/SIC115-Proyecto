@@ -1,0 +1,168 @@
+{% extends 'base.html' %}
+
+
+
+{% block typeofbody %}
+<body>
+{% endblock %}
+{% block typeofheader %}
+  <header id="header">
+{% endblock %}
+
+{% block head %}
+<script type="text/javascript">
+function printDiv(nombreDiv) {
+     var contenido= document.getElementById(nombreDiv).innerHTML;
+     var contenidoOriginal= document.body.innerHTML;
+
+     document.body.innerHTML = contenido;
+
+     window.print();
+
+     document.body.innerHTML = contenidoOriginal;
+}
+</script>
+{% endblock %}
+
+{% block navbar %}
+<ul>
+  <li><a href="/">Inicio</a></li>
+  <li><a href="/catalogo">Catalogo Cuentas</a></li>
+  <li><a href="/periodoConta">Periodos</a></li>
+  <li>
+    <a href="/settings" class="icon fa-angle-down">Configuracion</a>
+    <ul>
+      <li><a href="/settings/password">Contrasenia</a></li>
+    </ul>
+  </li>
+<li><a href="/logout" class="button">Cerrar Sesion</a></li>
+</ul>
+{% endblock %}
+{% block content %}
+
+
+<section id="main" class="container">
+  <div class="row" >
+    <div class="12u" id="areaImprimir">
+
+      <!-- Table -->
+        <section class="box">
+          <div class="card-header">
+            <h3 style="text-align:center;">Vega Camisetas y Diseño</h2>
+            <h5 style="text-align:center;">Periodo del {{periodo.fechaInicio}} al {{periodo.fechaFin}} </h4>
+            <h4 style="text-align:center;"> <i class="fa fa-list"></i>Balance de Capital</h3>
+          </div>
+
+          <div class="table-wrapper">
+
+						<table>
+
+							<tr>
+								<td> <strong>Inversiones:</strong> </td>
+							</tr>
+							<tr>
+								<td align="center">Cuenta:</td>
+								<td align="center">Descripcion</td>
+								<td align="center">Total</td>
+							</tr>
+							<tr>
+								{% for inversiones in inver%}
+								<td align="center">{{inversiones.nombre}}</td>
+								<td align="center">{{inversiones.descripcion}}</td>
+								<td align="center">{{inversiones.saldoAcreedor}}</td>
+							</tr>
+								 {% endfor %}
+
+								<tr>
+										{% for util in utilidades%}
+										{% if util.utilidadNeta >= 0.00%}
+										<td align="center">Utilidades</td>
+										<td align="center">Retenidas</td>
+										<td align="center">{{neta}}</td>
+								</tr>
+								{% endif %}
+								{% endfor %}
+							<tr>
+										<td></td>
+										<td></td>
+										<td align="center">_____</td>
+								</tr>
+
+								<tr>
+								{% for cap in capitalContable%}
+									<td><b>Total</b></td>
+									<td></td>
+									<td align="center"><b>{{cap.haber}}</b></td>
+								</tr>
+								{% endfor %}
+              </table>
+              <table>
+								<tr>
+									<td><strong>Desinversiones:</strong></td>
+								</tr>
+								<tr>
+									<td align="center">Cuenta:</td>
+								<td align="center">Descripcion</td>
+								<td align="center">Total</td>
+								</tr>
+								<tr>
+									{% for desinversiones in desinver %}
+								<td align="center">{{desinversiones.nombre}}</td>
+								<td align="center">{{desinversiones.descripcion}}</td>
+								<td align="center">{{desinversiones.saldoDeudor}}</td>
+								</tr>
+										{% endfor %}
+								<tr>
+								{% for util in utilidades%}
+										{% if util.utilidadNeta < 0.00%}
+								<td align="center">Utilidades</td>
+								<td align="center">Retenidas</td>
+								<td align="center">{{util.utilidadNeta}}</td>
+							</tr>
+								{% endif %}
+								{% endfor %}
+							<tr>
+										<td></td>
+										<td></td>
+										<td align="center">_____</td>
+								</tr>
+
+
+										{% for cap in capitalContable%}
+                    <tr>
+									<td><b>Total</b></td>
+									<td></td>
+									<td align="center"><b>{{cap.debe}}</b></td>
+								</tr>
+								{% endfor %}
+              </table>
+              <table>
+								<tr>
+										{% for capital in capitalContable %}
+									<td>Capital Contable:</td>
+									<td>{{capital.capitalContable}}</td>
+								</tr>
+										{% endfor %}
+
+								<tr>
+										{% for capital in capitalContable%}
+									<td>Utilidad Retenida:</td>
+									<td>{{capital.UtilidadRetenida}}</td>
+								</tr>
+									{% endfor %}
+						</table>
+          </div>
+
+        </section>
+        <input type="button" onclick="printDiv('areaImprimir')" value="Imprimir Estado de Capital" />
+        <a href="/generador/{{periodoId}}" class="button special">Regresar</a>
+    </div>
+
+  </div>
+
+</section>
+
+
+
+
+{% endblock content %}

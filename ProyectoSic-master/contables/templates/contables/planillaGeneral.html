@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>Planilla general</title>
+{% endblock title %}
+
+{% block typeofbody %}
+<body>
+{% endblock %}
+{% block typeofheader %}
+  <header id="header">
+{% endblock %}
+{% block navbar %}
+<ul>
+  <li><a href="/">Inicio</a></li>
+  <li><a href="/catalogo">Catalogo Cuentas</a></li>
+  <li><a href="/periodoConta">Periodos</a></li>
+  <li>
+    <a href="/settings" class="icon fa-angle-down">Configuracion</a>
+    <ul>
+      <li><a href="/settings/password">Contrasenia</a></li>
+    </ul>
+  </li>
+<li><a href="/logout" class="button">Cerrar Sesion</a></li>
+</ul>
+{% endblock %}
+{% block content %}
+
+<section id="main" class="container">
+  <header>
+    <h2><i class="fa fa-list"></i>Planilla General</h2>
+
+  </header>
+  <section class="box">
+		<div class="table-wrapper">
+			<table class="table" id="dataTable" width="100%" cellspacing="0">
+            <thead>
+              <th>DUI</th>
+              <th>Nombres</th>
+              <th>Apellidos</th>
+              <th>Planilla</th>
+            </thead>
+            <tbody>
+              <tr>
+                {% for empleado in emp %}
+                  <td>
+                  {{empleado.dui}}
+                  </td>
+                  <td>
+                  {{empleado.nombreEmpleado}}
+                  </td>
+                  <td>
+                  {{empleado.apellidoEmpleado}}
+                  </td>
+                  <td>
+                  <a class="button" href="/planillaGral/{{empleado.dui}}/{{periodoId}}">Ver Planilla</a>
+                  </td>
+              </tr>
+                {% endfor %}
+            </tbody>
+          </table>
+	</div>
+	<a href="/contabilidadCostos/{{periodoId}}" class="button special" name="next">Regresar</a>
+  </section>
+</section>
+{% endblock content %}

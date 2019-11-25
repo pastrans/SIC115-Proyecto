@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% block head%}
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#enviar').click(function(e){
+            e.preventDefault();
+                var dataString = $('#form-control').serialize();
+
+            $.ajax({
+                type: "POST",
+                url: '',
+                data: dataString,
+                success: function(data) {
+                window.location.replace("/gestionarOrden/{{ordenId}}/{{periodoId}}");
+                }
+            });
+        });
+    });
+</script>
+{% endblock head%}
+
+{% block typeofbody %}
+<body>
+{% endblock %}
+{% block typeofheader %}
+  <header id="header">
+{% endblock %}
+{% block navbar %}
+<ul>
+  <li><a href="/">Inicio</a></li>
+  <li><a href="/catalogo">Catalogo Cuentas</a></li>
+  <li><a href="/periodoConta">Periodos</a></li>
+  <li>
+    <a href="/settings" class="icon fa-angle-down">Configuracion</a>
+    <ul>
+      <li><a href="/settings/password">Contrasenia</a></li>
+    </ul>
+  </li>
+<li><a href="/logout" class="button">Cerrar Sesion</a></li>
+</ul>
+{% endblock %}
+{% block content %}
+
+
+<section id="main" class="container">
+  <header>
+    <h2>Asignar Mano De Obra</h2>
+    <p>LLene los datos correctamente</p>
+  </header>
+  <section class="box">
+		<div class="table-wrapper">
+      <form id="form-control" method="POST">
+      {% csrf_token%}
+        <div class="row uniform 50%">
+          <div class="6u 12u(mobilep)">
+            <label>Orden:</label>
+            <input type="number" name="idOrden" readonly="readonly" value="{{ordenId}}" class="form-control">
+          </div>
+          <div class="6u 12u(mobilep)">
+            <label>Empleado:</label>
+                <select style="width:100%" name="empleadoId" class="form-control">
+                    {% for producto1 in empleado %}
+                    <option value="{{producto1.dui}}">{{producto1.nombreEmpleado}}</option>
+                    {% endfor %}
+                </select>
+          </div>
+        </div>
+        <div class="row uniform">
+          <div class="12u">
+            <ul class="actions align-center">
+              <li><input type="button" value="Guardar" id="enviar" name="enviar" class="button"></li>
+              <li><a href="/gestionarOrden/{{ordenId}}/{{periodoId}}" class="button special">Regresar</a></li>
+            </ul>
+          </div>
+        </div>
+  			<input type="hidden" value="{{periodoId}}" name="periodo" readonly="readonly">
+      </form>
+	</div>
+  </section>
+</section>
+{% endblock content %}

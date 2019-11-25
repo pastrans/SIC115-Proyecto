@@ -1,0 +1,112 @@
+{% extends 'base.html'%}
+{% block head%}
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#enviar').click(function(e){
+            e.preventDefault();
+                var dataString = $('#form-control').serialize();
+
+
+            $.ajax({
+                type: "POST",
+                url: '',
+                data: dataString,
+                success: function(data) {
+                window.location.replace("/manejoOrdenes/{{periodoId}}");
+                }
+            });
+        });
+    });
+</script>
+{% endblock head%}
+
+{% block typeofbody %}
+<body>
+{% endblock %}
+{% block typeofheader %}
+  <header id="header">
+{% endblock %}
+{% block navbar %}
+<ul>
+  <li><a href="/">Inicio</a></li>
+  <li><a href="/catalogo">Catalogo Cuentas</a></li>
+  <li><a href="/periodoConta">Periodos</a></li>
+  <li>
+    <a href="/settings" class="icon fa-angle-down">Configuracion</a>
+    <ul>
+      <li><a href="/settings/password">Contrasenia</a></li>
+    </ul>
+  </li>
+<li><a href="/logout" class="button">Cerrar Sesion</a></li>
+</ul>
+{% endblock %}
+{% block content %}
+
+<section id="main" class="container">
+  <header>
+    <h2>Crear Orden</h2>
+    <p>Ingrese los datos correctamente</p>
+  </header>
+  <section class="box">
+    <form id='form-control' method="POST">
+    	{%csrf_token%}
+      <div class="table-wrapper">
+    	<table>
+    	<tc>
+    		 <tr>
+    		 				<td>Tipo de Camisa: </td>
+                              <td>
+                                <select style="width:100%" name="productoId">
+                                  {% for producto1 in tipoPan %}
+                                  <option value="{{producto1.id}}">{{producto1.descripcion}}</option>
+                                  {% endfor %}
+                                </select>
+                              </td>
+                            </tr>
+        </tc>
+        <tc>
+        	<tr>
+        	{% for costos in cif %}
+        		<td>CIF:</td>
+    			<td><input type="number" name="cif" readonly="readonly" value="{{costos.porcentaje}}"></td>
+    		</tr>
+    		{% endfor %}
+    	</tc>
+    	<tc>
+        <tr>
+    			<td>Descripcion: </td>
+    			<td><input type="text" name="descripcion"></td>
+    		</tr>
+    	</tc>
+    	<tc>
+        <tr>
+    			<td>Sueldo por Dia: </td>
+    			<td><input type="text" name="sueldos" readonly="readonly" value="$10"></td>
+    		</tr>
+    	</tc>
+    	<tc>
+        <tr>
+    			<td>Dias Trabajados: </td>
+    			<td><input type="number" name="diasTrabajados"></td>
+    		</tr>
+    	</tc>
+    	<tc>
+        <tr>
+    			<td>Fecha de Creacion: </td>
+    			<td><input type="date" name="fechaCreacio"></td>
+    		</tr>
+    	</tc>
+    	<tc>
+        <tr>
+    			<td>Fecha de Entrega: </td>
+    			<td><input type="date" name="fechaEntrega"></td>
+    		</tr>
+    	</tc>
+
+    	</table>
+    </div>
+    	<input type="submit" name="enviar" id="enviar" value="Guardar" class="btn btn-primary" style="margin-left: 41%">
+    </form>
+  </section>
+</section>
+{% endblock content %}

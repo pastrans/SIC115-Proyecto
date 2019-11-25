@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>
+  Registrar usuario
+</title>
+{% endblock title %}
+
+{% block typeofbody %}
+<body>
+{% endblock %}
+{% block typeofheader %}
+<header id="header">
+{% endblock %}
+{% block navbar %}
+<ul>
+<li><a href="/">Inicio</a></li>
+<li><a href="/catalogo">Catalogo Cuentas</a></li>
+<li><a href="/catalogo">Periodos</a></li>
+<li>
+  <a href="/settings" class="icon fa-angle-down">Configuracion</a>
+  <ul>
+    <li><a href="/settings/password">Contrasenia</a></li>
+  </ul>
+</li>
+<li><a href="/logout" class="button">Cerrar Sesion</a></li>
+</ul>
+{% endblock %}
+
+{% block content %}
+<!-- Main -->
+  <section id="main" class="container">
+
+    <section class="box special features">
+    <h2></i> Edita tus datos {{ request.user.get_full_name}}</h2>
+    <form method="post" action='{{ action_url }}' enctype='multipart/form-data'>
+      {% csrf_token %}
+      {% if messages %}
+        {% for message in messages %}
+          {% if message.tags == 'success' %}
+            <p style="color: green"> <u>{{ message }}</u></p>
+          {% else %}
+            <p style="color: red"><u>{{ message }}</u> </p>
+          {% endif %}
+        {% endfor %}
+      {% endif %}
+      {% for error in form.non_field_errors %}
+        <div class="alert alert-danger" >
+          <strong style="color: red">{{ error|escape }}</strong>
+        </div>
+      {% endfor %}
+      {% for field in form %}
+        {% for error in field.errors %}
+            <div class="alert alert-danger">
+              <strong style="color: red">{{ error|escape }}</strong>
+            </div>
+        {% endfor %}
+        <div class="12u$ form-group">
+          <div class="row">
+            <div class="col-2">
+              {{ field.label_tag }}
+            </div>
+            <div class="col">
+              {{ field }}
+            </div>
+          </div>
+       </div>
+      {% endfor %}
+      <button class="button special" type="submit">Modificar</button>
+      <button class="button special btn btn-primary  special button" type="submit">Registrarse</button>
+      <a href="/" role="button" class="btn btn-outline-secondary">Inicio</a>
+    </form>
+    </section>
+
+  </section>
+
+
+{% endblock content %}

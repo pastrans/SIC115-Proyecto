@@ -1,0 +1,163 @@
+ {% extends 'base.html' %}
+ {% load static %}
+  {% block title %}
+  <title>Listado transacciones</title>
+
+  {% endblock title %}
+
+{% block head %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/Padding.css' %}">
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#enviar').click(function(e){
+            e.preventDefault();
+                var dataString1 = $('#form-control1').serialize();
+                var dataString2 = $('#form-control2').serialize();
+                var dataString = dataString1+'&'+dataString2;
+
+
+            $.ajax({
+                type: "POST",
+                url: '',
+                data: dataString,
+                success: function(data) {
+                window.location.replace("");
+                }
+            });
+        });
+    });
+</script>
+
+<script type="text/javascript">
+  function validarMontos() {
+  var x = document.getElementsByName("monto1")[0].value;
+  var y = document.getElementsByName("monto2")[0].value;
+  var w = document.getElementsByName("cuentaId1")[0].value;
+  var z = document.getElementsByName("cuentaId2")[0].value;
+if(w == z){
+    alert('No puede ingresar la misma cuenta vuelva a ingresar los datos');
+}else{
+      if(x == y){
+      alert('Transaccion Guardada con Exito');
+  } else {
+    alert('No se cumple partida doble ambos montos deben ser iguales');
+  }
+}
+}
+</script>
+{% endblock head %}
+
+{% block typeofbody %}
+<body>
+{% endblock %}
+{% block typeofheader %}
+  <header id="header">
+{% endblock %}
+{% block navbar %}
+<ul>
+  <li><a href="/">Inicio</a></li>
+  <li><a href="/catalogo">Catalogo Cuentas</a></li>
+  <li><a href="/periodoConta">Periodos</a></li>
+  <li>
+    <a href="/settings" class="icon fa-angle-down">Configuracion</a>
+    <ul>
+      <li><a href="/settings/password">Contrasenia</a></li>
+    </ul>
+  </li>
+<li><a href="/logout" class="button">Cerrar Sesion</a></li>
+</ul>
+{% endblock %}
+{% block content %}
+
+<section id="main" class="container">
+  <header>
+    <h2>Nuevo Detalle de Transaccion</h2>
+    <p> Coloque los valores correctamente</p>
+  </header>
+  <section class="box">
+    <div class="row">
+      <div class="6u 12u(mobilep)">
+        <form id="form-control1" method="POST">
+        {% csrf_token%}
+        <div class="table-wrapper">
+          <table class="table" id="dataTable" width="100%" cellspacing="0">
+            <thead>
+              <tr>
+                <th><h3>Cuentas debe</h3></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  Cuenta: <select style="width:80%" name="cuentaId1">
+                    {% for cuenta1 in cuenta %}
+                    {% if cuenta1.codigo_dependiente == null %}
+                    <option value="{{cuenta1.id}}">{{cuenta1.codigo}}    {{cuenta1.nombre}} {{cuentas.descripcion}}</option>
+                    {% endif%}
+                    {% for cuenta2 in cuenta %}
+                    {% if cuenta1.id == cuenta2.codigo_dependiente %}
+                    <option value="{{cuenta2.id}}">{{cuenta2.codigo}}    {{cuenta2.nombre}} {{cuentas.descripcion}}</option>
+                    {% endif  %}
+                    {% endfor %}
+                    {% endfor %}
+                  </select>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  Debe: <input type="number" name="monto1" step="0.1" style="margin-left: 13px">
+                  <input type="hidden" name="idtrans1" value="{{transaccionId}}">
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        </form>
+      </div>
+      <div class="6u 12u(mobilep)">
+        <form id="form-control2" method="POST">
+        {% csrf_token%}
+          <div class="table-wrapper">
+            <table class="table" id="dataTable" width="100%" cellspacing="0">
+              <thead>
+                <tr>
+                  <th><h3>Cuentas Haber</h3></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    Cuenta: <select style="width:80%" name="cuentaId2">
+                      {% for cuenta1 in cuenta %}
+                      {% if cuenta1.codigo_dependiente == null %}
+                      <option value="{{cuenta1.id}}">{{cuenta1.codigo}}    {{cuenta1.nombre}} {{cuentas.descripcion}}</option>
+                      {% endif%}
+                      {% for cuenta2 in cuenta %}
+                      {% if cuenta1.id == cuenta2.codigo_dependiente %}
+                      <option value="{{cuenta2.id}}">{{cuenta2.codigo}}    {{cuenta2.nombre}} {{cuentas.descripcion}}</option>
+                      {% endif  %}
+                      {% endfor %}
+                      {% endfor %}
+                    </select>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    Haber: <input type="number" name="monto2" step="0.1" style="margin-left: 8px">
+                    <input type="hidden" name="idtrans2" value="{{transaccionId}}">
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </form>
+
+      </div>
+		</div>
+    <div class="row">
+      <button class="button"  onclick="validarMontos()" type="submit" name="enviar" id="enviar">Enviar</button>
+      <a href="/transaccion/{{periodoId}}" class="button special small">Regresar</a>
+    </div>
+  </section>
+</section>
+{% endblock content %}

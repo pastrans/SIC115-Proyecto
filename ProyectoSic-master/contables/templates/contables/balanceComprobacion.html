@@ -1,0 +1,115 @@
+ {% extends 'base.html' %}
+
+  {% block title %}
+  <title>Balance de comprobacion</title>
+  {% endblock title %}
+
+{% block head%}
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#enviar').click(function(e){
+            e.preventDefault();
+                var dataString = $('#form-control').serialize();
+
+
+
+            $.ajax({
+                type: "POST",
+                url: '',
+                data: dataString,
+                success: function(data) {
+                window.location.replace("");
+                }
+            });
+        });
+    });
+</script>
+
+<script type="text/javascript">
+function printDiv(nombreDiv) {
+     var contenido= document.getElementById(nombreDiv).innerHTML;
+     var contenidoOriginal= document.body.innerHTML;
+
+     document.body.innerHTML = contenido;
+
+     window.print();
+
+     document.body.innerHTML = contenidoOriginal;
+}
+</script>
+{% endblock head%}
+
+{% block typeofbody %}
+<body>
+{% endblock %}
+{% block typeofheader %}
+  <header id="header">
+{% endblock %}
+{% block navbar %}
+<ul>
+  <li><a href="/">Inicio</a></li>
+  <li><a href="/catalogo">Catalogo Cuentas</a></li>
+  <li><a href="/periodoConta">Periodos</a></li>
+  <li>
+    <a href="/settings" class="icon fa-angle-down">Configuracion</a>
+    <ul>
+      <li><a href="/settings/password">Contrasenia</a></li>
+    </ul>
+  </li>
+<li><a href="/logout" class="button">Cerrar Sesion</a></li>
+</ul>
+{% endblock %}
+{% block content %}
+
+
+<section id="main" class="container">
+  <div class="row" >
+    <div class="12u" id="areaImprimir">
+
+      <!-- Table -->
+        <section class="box">
+          <div class="card-header">
+            <h2 style="text-align:center;">Vega Camisetas y diseño</h2>
+            <h4 style="text-align:center;">Periodo del {{periodo.fechaInicio}} al {{periodo.fechaFin}} </h4>
+            <h3 style="text-align:center;"> <i class="fa fa-list"></i>Balance Comprobación</h3>
+          </div>
+
+          <div class="table-wrapper">
+            <table class="table" id="dataTable" width="100%" cellspacing="0">
+              <thead>
+                <td><strong>Cuenta</strong></td>
+                <td><strong>Saldo Deudor</strong></td>
+                <td><strong>Saldo Acreedor</strong></td>
+              </thead>
+              <tbody>
+                  <tr>
+                  {% for cuentas in cuenta %}
+                    {% if cuentas.saldoDeudor != 0.00 or cuentas.saldoAcreedor != 0.00%}
+                      <td><strong>{{cuentas.nombre}}</strong></td>
+                      <td>{{cuentas.saldoDeudor}}</td>
+                      <td>{{cuentas.saldoAcreedor}}</td>
+                    </tr>
+                    {% endif %}
+                  {% endfor %}
+                  <tr>
+                    {% for balance in estados%}
+                    <td><strong>Total</strong></td>
+                    <td><b>{{balance.debe}}</b></td>
+                    <td><b>{{balance.haber}}</b></td>
+                  </tr>
+                    {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+    </div>
+   
+    <input type="button" onclick="printDiv('areaImprimir')" value="Imprimir Balance Comprobación" />
+ <b>
+     <a href="/generador/{{periodoId}}" class="button special">  Regresar</a><br>
+ 
+  </div>
+
+</section>
+{% endblock content %}

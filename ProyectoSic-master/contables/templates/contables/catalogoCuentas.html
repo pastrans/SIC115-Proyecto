@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+
+  {% block title %}
+  <title>Catalogo de cuentas</title>
+  {% endblock title %}
+
+{% block head%}
+
+{% endblock head%}
+
+
+{% block typeofbody %}
+<body>
+{% endblock %}
+{% block typeofheader %}
+  <header id="header">
+{% endblock %}
+{% block navbar %}
+<ul>
+  <li><a href="/">Inicio</a></li>
+  <li><a href="/catalogo">Catalogo Cuentas</a></li>
+  <li><a href="/periodoConta">Periodos</a></li>
+  <li>
+    <a href="/settings" class="icon fa-angle-down">Configuracion</a>
+    <ul>
+      <li><a href="/settings/password">Contrasenia</a></li>
+    </ul>
+  </li>
+<li><a href="/logout" class="button">Cerrar Sesion</a></li>
+</ul>
+{% endblock %}
+{% block content %}
+
+<section id="main" class="container">
+  <div class="row">
+    <div class="12u">
+      {% if messages %}
+      {% for message in messages %}
+      {% if message.tags == 'success' %}
+      <p style="color: green"> <u>{{ message }}</u></p>
+          {% else %}
+      <p style="color: red"><u>{{ message }}</u> </p>
+      {% endif %}
+      {% endfor %}
+      {% endif %}
+      {% for error in form.non_field_errors %}
+      <div class="alert alert-danger" >
+        <strong style="color: red">{{ error|escape }}</strong>
+      </div>
+      {% endfor %}
+      <!-- Table -->
+        <section class="box">
+          <div class="card-header">
+            <i class="fa fa-list"></i> Catalogo de cuentas
+          <a class="button" href="/agregarCuenta/" role="button">Agregar cuenta padre</a>
+          <a class="button special" href="/" role="button">Regresar</a>
+          </div>
+
+          <div class="table-wrapper">
+            <table class="table" id="dataTable" width="100%" cellspacing="0">
+              <thead>
+                <tr>
+                  <td align="center">Identificador </td>
+                  <td align="center">Codigo</td>
+                  <td align="center">Cuenta</td>
+                  <td align="center">Descripcion</td>
+                  <td align="center">Relacion</td>
+                  <td align="center">Gestionar cuenta</td>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  {% for cuenta1 in cuenta%}
+                  {% if cuenta1.codigo_dependiente == null %}
+                  <td align="center"><h5>{{cuenta1.id}}</h5></td>
+                  <td align="center"><h5>{{cuenta1.codigo}}</h5></td>
+                  <td align="center"><h5>{{cuenta1.nombre}}</h5></td>
+                  <td align="center"><h5>{{cuenta1.descripcion}}</h5></td>
+
+                  {% if cuenta1.codigo_dependiente != null %}
+                  <td align="center"><h5>{{cuenta1.codigo_dependiente}}</h5></td>
+                  {% endif %}
+                  {% if cuenta1.codigo_dependiente == null%}
+                  <td align="center"><h5>Padre</h5></td>
+                  <td align="center"><h5><a class="button" href="/agregarCuentaHija/{{cuenta1.id}}">Asignar Cuentas hijas</a></h5></td>
+                  {% endif %}
+                </tr>
+                  {% endif %}
+                  {% for cuenta2 in cuenta%}
+                  <tr>
+                  {% if cuenta1.id == cuenta2.codigo_dependiente %}
+                  <td align="center"></td>
+                  <td align="center">{{cuenta2.codigo}}</td>
+                  <td align="center">{{cuenta2.nombre}}</td>
+                  <td align="center">{{cuenta2.descripcion}}</td>
+
+                  {% if cuenta2.codigo_dependiente != null %}
+                  <td align="center">{{cuenta2.codigo_dependiente}}</td>
+                  <td align="center"><a href="/modificarCuenta/{{cuenta2.id}}">Modificar Cuenta</a></td>
+                  {% endif %}
+                  </tr>
+                  {% endif  %}
+                  {% endfor %}
+                  {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+    </div>
+  </div>
+</section>
+{% endblock content %}

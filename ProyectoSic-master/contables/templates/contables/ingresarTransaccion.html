@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>Ingresar transaccion</title>
+{% endblock title %}
+{% block head %}
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('#enviar').click(function(e){
+			e.preventDefault();
+				var dataString = $('#form-control').serialize();
+
+
+				alert(dataString)
+			$.ajax({
+				type: "POST",
+				url: '',
+				data: dataString,
+				success: function(data) {
+				window.location.replace("/transaccion/{{periodoId}}");
+				}
+			});
+		});
+	});
+</script>
+{% endblock head %}
+
+{% block typeofbody %}
+<body>
+{% endblock %}
+{% block typeofheader %}
+  <header id="header">
+{% endblock %}
+{% block navbar %}
+<ul>
+  <li><a href="/">Inicio</a></li>
+  <li><a href="/catalogo">Catalogo Cuentas</a></li>
+  <li><a href="/periodoConta">Periodos</a></li>
+  <li>
+    <a href="/settings" class="icon fa-angle-down">Configuracion</a>
+    <ul>
+      <li><a href="/settings/password">Contrasenia</a></li>
+    </ul>
+  </li>
+<li><a href="/logout" class="button">Cerrar Sesion</a></li>
+</ul>
+{% endblock %}
+{% block content %}
+
+<section id="main" class="container">
+  <header>
+    <h2>Ingrese Nueva transaccion</h2>
+    <p>Ingrese los datos correctamente</p>
+  </header>
+  <section class="box">
+    <form id="form-control" method="POST">
+    {% csrf_token%}
+      <div class="row uniform 50%">
+        <div class="6u 12u(mobilep)">
+          <label for="descripcion">Descripcion:</label>
+          <input class="form-control" id="descripcion" type="text" name="descripcion">
+        </div>
+        <div class="6u 12u(mobilep)">
+          <label for="fechaTransaccion">Fecha:</label>
+          <input class="form-control" id="fechaTransaccion" type="date" name="fechaTransaccion">
+        </div>
+      </div>
+      <div class="row uniform">
+        <div class="12u">
+          <ul class="actions align-center">
+            <li><input type="button" value="Guardar" id="enviar" name="enviar" class="button"></li>
+            <li><a href="/transaccion/{{periodoId}}" class="button special">Regresar</a></li>
+          </ul>
+        </div>
+      </div>
+			<input type="hidden" value="{{periodoId}}" name="periodo" readonly="readonly">
+    </form>
+  </section>
+</section>
+{% endblock content %}

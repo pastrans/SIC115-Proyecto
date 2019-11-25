@@ -1,0 +1,129 @@
+{% extends 'base.html' %}
+{% block head%}
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#enviar').click(function(e){
+            e.preventDefault();
+                var dataString = $('#form-control').serialize();
+
+            $.ajax({
+                type: "POST",
+                url: '',
+                data: dataString,
+                success: function(data) {
+                window.location.replace("");
+                }
+            });
+        });
+    });
+</script>
+{% endblock head%}
+
+
+{% block typeofbody %}
+<body>
+{% endblock %}
+{% block typeofheader %}
+  <header id="header">
+{% endblock %}
+{% block navbar %}
+<ul>
+  <li><a href="/">Inicio</a></li>
+  <li><a href="/catalogo">Catalogo Cuentas</a></li>
+  <li><a href="/periodoConta">Periodos</a></li>
+  <li>
+    <a href="/settings" class="icon fa-angle-down">Configuracion</a>
+    <ul>
+      <li><a href="/settings/password">Contrasenia</a></li>
+    </ul>
+  </li>
+<li><a href="/logout" class="button">Cerrar Sesion</a></li>
+</ul>
+{% endblock %}
+{% block content %}
+
+<section id="main" class="container">
+  <header>
+    <h2> Manejo De Ordenes De Fabricacion</h2>
+    <p> Coloque los valores correctamente</p>
+  </header>
+  <section class="box">
+    <div class="row">
+      <form id="form-control" method="POST">
+        {% csrf_token %}
+        <div class="table-wrapper">
+          <table>
+            {% if prod.cantidadProducto == 0.00 and prod.porcentajeGanancia == 0.00 %}
+            <tr>
+              <td>Cantidad de Producto:</td>
+            </tr>
+            <tr>
+              <td><input type="number" name="cantProd"></td>
+            </tr>
+            <tr>
+              <td>Porcentaje de Ganancia:</td>
+            </tr>
+            <tr>
+              <td><input type="number" name="ganancia" step="0.1"></td>
+            </tr>
+            <tr>
+              <td>Tipo de Venta: </td>
+            </tr>
+            <tr>
+              <td>
+                <select name="Venta">
+                  <option value="Credito"> Credito
+                  </option>
+                  <option value="Contado"> Contado
+                  </option>
+                </select>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </form>
+    </div>
+    <div class="row">
+      <input type="submit" name="enviar" id="enviar" value="Guardar" class="button">
+    </div>
+  </section>
+    {% endif %}
+    <section class="box">
+    <div class="row">
+      <div class="table-wrapper">
+        <table>
+          <tr>
+            <th>Producto Terminado para la Orden:      </th>
+            <th>  {{ord.descripcion}}</th>
+          </tr>
+        </table>
+        <table>
+          <tr>
+            <td align="center">No Orden</td>
+            <td align="center">Tipo de Pan</td>
+            <td align="center">Costos de Materia Prima</td>
+            <td align="center">Costos de Costos Indirectos de Fabricacion</td>
+            <td align="center">Costos de Mano de Obra</td>
+            <td align="center">Costo Total Producto</td>
+            <td align="center">Costo Unitario</td>
+            <td align="center">Precio Unitario de Venta</td>
+          </tr>
+          <tr>
+            <td align="center">{{ord.id}}</td>
+            <td align="center">{{pan.descripcion}}</td>
+            <td align="center">{{ord.CMP}}</td>
+            <td align="center">{{ord.CIF_O}}</td>
+            <td align="center">{{ord.CMOD}}</td>
+            <td align="center">{{prod.costoTotalProducto}}</td>
+            <td align="center">{{prod.costoUnitarioProducto}}</td>
+            <td align="center">{{prod.precioVenta}}</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="row">
+      <a href="/manejoOrdenes/{{ord.id}}/" class="button special small">Regresar</a>
+    </div>
+  </section>
+</section>
+{% endblock content %}

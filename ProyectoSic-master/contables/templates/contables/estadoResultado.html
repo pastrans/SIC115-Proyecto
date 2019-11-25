@@ -1,0 +1,245 @@
+ {% extends 'base.html' %}
+
+  {% block title %}
+  <title>Estado de resultados</title>
+  {% endblock title %}
+
+  {% block head %}
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#enviar').click(function(e){
+            e.preventDefault();
+                var dataString = $('#form-control').serialize();
+
+
+
+            $.ajax({
+                type: "POST",
+                url: '',
+                data: dataString,
+                success: function(data) {
+                window.location.replace("");
+                }
+            });
+        });
+    });
+</script>
+<script type="text/javascript">
+function printDiv(nombreDiv) {
+     var contenido= document.getElementById(nombreDiv).innerHTML;
+     var contenidoOriginal= document.body.innerHTML;
+
+     document.body.innerHTML = contenido;
+
+     window.print();
+
+     document.body.innerHTML = contenidoOriginal;
+}
+</script>
+{% endblock head %}
+
+{% block typeofbody %}
+<body>
+{% endblock %}
+{% block typeofheader %}
+  <header id="header">
+{% endblock %}
+{% block navbar %}
+<ul>
+  <li><a href="/">Inicio</a></li>
+  <li><a href="/catalogo">Catalogo Cuentas</a></li>
+  <li><a href="/periodoConta">Periodos</a></li>
+  <li>
+    <a href="/settings" class="icon fa-angle-down">Configuracion</a>
+    <ul>
+      <li><a href="/settings/password">Contrasenia</a></li>
+    </ul>
+  </li>
+<li><a href="/logout" class="button">Cerrar Sesion</a></li>
+</ul>
+{% endblock %}
+
+{% block content %}
+<section id="main" class="container">
+  <div class="row">
+    <div class="12u" id="areaImprimir">
+      <!-- Table -->
+      <section class="box">
+        <div class="card-header">
+          <h3 style="text-align:center;">Vega Camisetas y Diseño</h2>
+          <h5 style="text-align:center;">Periodo del {{periodo.fechaInicio}} al {{periodo.fechaFin}} </h4>
+          <h4 style="text-align:center;"> <i class="fa fa-list"></i>Estado de Resultados</h3>
+        </div>
+
+        <div class="table-wrapper">
+          <h5><strong>Ingresos</strong></h5>
+          <table class="table" id="dataTable" width="100%" cellspacing="0">
+            <thead>
+              <td>Cuentas</td>
+              <td>Descripcion</td>
+              <td>------</td>
+              <td>Total</td>
+            </thead>
+            <tbody>
+              <tr>
+                {% for ingresos in Ingreso%}
+                {% if ingresos.saldoAcreedor != 0.00 %}
+                <td>{{ingresos.nombre}}</td>
+                <td>{{ingresos.descripcion}}</td>
+                <td ></td>
+                <td></td>
+                <td >{{ingresos.saldoAcreedor}}</td>
+              </tr>
+              {% endif %}
+              {% endfor %}
+              <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>_____</td>
+              </tr>
+              <tr>
+                {% for resultados in resultado %}
+                <td></td>
+                <td>Total</td>
+                <td ></td>
+                <td >{{resultados.haber}}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+          <h5><strong>Gastos</strong></h5>
+          <table class="table" id="dataTable" width="100%" cellspacing="0">
+            <thead>
+              <td>Cuentas</td>
+              <td>Descripcion</td>
+              <td>------</td>
+              <td>Total</td>
+            </thead>
+            <tbody>
+              <tr>
+                {% for gastos in Gasto%}
+                {% if gastos.saldoDeudor != 0.00 %}
+                <td>{{gastos.nombre}}</td>
+                <td>{{gastos.descripcion}}</td>
+                <td></td>
+                <td >{{gastos.saldoDeudor}}</td>
+                <td ></td>
+                {% endif %}
+              </tr>
+              {% endfor %}
+              <tr>
+                {% for gastos in Gasto2%}
+                {% if gastos.saldoDeudor != 0.00 %}
+                <td>{{gastos.nombre}}</td>
+                <td>{{gastos.descripcion}}</td>
+                <td></td>
+                <td >{{gastos.saldoDeudor}}</td>
+                <td ></td>
+              </tr>
+              {% endif %}
+              {% endfor %}
+              <tr>
+                {% for gastos in Gasto3 %}
+                {% if gastos.saldoDeudor != 0.00 %}
+                <td>{{gastos.nombre}}</td>
+                <td>{{gastos.descripcion}}</td>
+                <td></td>
+                <td >{{gastos.saldoDeudor}}</td>
+                <td ></td>
+              </tr>
+              {% endif %}
+              {% endfor %}
+              <tr>
+                {% for gastos in Gasto4 %}
+                {% if gastos.saldoDeudor != 0.00 %}
+                <td>{{gastos.nombre}}</td>
+                <td>{{gastos.descripcion}}</td>
+                <td></td>
+                <td >{{gastos.saldoDeudor}}</td>
+                <td ></td>
+              </tr>
+              {% endif %}
+              {% endfor %}
+            </tr>
+            <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td>_____</td>
+
+            </tr>
+            <tr>
+              {% for resultados in resultado %}
+              <td></td>
+              <td>Total</td>
+              <td></td>
+              <td >{{resultados.debe}}</td>
+
+              {% endfor %}
+            </tr>
+          </tbody>
+        </table>
+        <table>
+          {% for resultados in resultado%}
+          {% if resultados.haber > resultados.debe%}
+          <tr>
+            <td>Utilidades:</td>
+          </tr>
+          <tr>
+            <td>Utilidad Bruta:</td>
+            <td>{{resultados.utilidades}}</td>
+          </tr>
+          <tr>
+            {% for reserva in capital%}
+            {% if reserva.saldoAcreedor != 0.00%}
+            <td>{{reserva.nombre}}</td>
+            <td>{{reserva.saldoAcreedor}}</td>
+            {% endif %}
+            {% endfor %}
+          </tr>
+          <tr>
+            {% for impuesto in impuestoRenta %}
+            {% if impuesto.saldoDeudor != 0.00%}
+            <td>{{impuesto.nombre}}</td>
+            <td>{{impuesto.saldoDeudor}}</td>
+            {% endif %}
+            {% endfor %}
+          </tr>
+          <tr>
+            <td>Utilidad Neta:</td>
+            <td>{{resultados.utilidadNeta}}</td>
+          </tr>
+
+          {% endif %}
+
+          {% if resultados.haber < resultados.debe%}
+          <tr>
+            <td>Utilidades:</td>
+            <td>Perdida:</td>
+            <td>({{resultados.utilidades}})</td>
+          </tr>
+          {% endif%}
+
+          {% if resultados.haber == resultados.debe %}
+          <tr>
+            <td>Utilidades</td>
+            <td>No existe Utilidad ni Perdida</td>
+          </tr>
+          {% endif %}
+          {% endfor%}
+        </table>
+      </div>
+
+    </section>
+
+  </div>
+  <input type="button" onclick="printDiv('areaImprimir')" value="Imprimir Balance General" />
+  <b>
+  <a href="/generador/{{periodoId}}" class="button special">Regresar</a>
+</div>
+</section>
+{% endblock content %}
+
+
+{%

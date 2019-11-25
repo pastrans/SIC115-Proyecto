@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% block typeofbody %}
+<body>
+{% endblock %}
+{% block typeofheader %}
+  <header id="header">
+{% endblock %}
+{% block navbar %}
+<ul>
+  <li><a href="/">Inicio</a></li>
+  <li><a href="/catalogo">Catalogo Cuentas</a></li>
+  <li><a href="/periodoConta">Periodos</a></li>
+  <li>
+    <a href="/settings" class="icon fa-angle-down">Configuracion</a>
+    <ul>
+      <li><a href="/settings/password">Contrasenia</a></li>
+    </ul>
+  </li>
+<li><a href="/logout" class="button">Cerrar Sesion</a></li>
+</ul>
+{% endblock %}
+{% block content %}
+
+
+<section id="main" class="container">
+  <header>
+    <h2><i class="fa fa-list"></i> Gestionar orden: </h2>
+    <p>{% for ord in orden%}
+    {{ord.descripcion}}
+    {% endfor %}
+  </p>
+  </header>
+  <section class="box">
+		<div class="table-wrapper">
+		<table>
+    {%for per in period%}
+      {% if per.estadoPeriodo == True%}  
+			<tr>
+				<td>
+					<a  class="button" href="/asignarMP/{{ordenId}}/{{periodoId}}">Asignar Materia Prima</a>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<a class="button" href="/asignarMOD/{{ordenId}}/{{periodoId}}">Asignar Mano de Obra</a>
+				</td>
+			</tr>
+
+      {% else %}
+        <tr>
+        <h1><td>
+          No se puede asignar nada a la orden, dado que el periodo esta cerrado.
+        </td></h1>
+      </tr>
+
+      {% endif %}
+    {% endfor %}
+		</table>
+	</div>
+	<a href="/manejoOrdenes/{{periodoId}}" class="button special" name="next">Regresar</a>
+  </section>
+</section>
+{% endblock content %}

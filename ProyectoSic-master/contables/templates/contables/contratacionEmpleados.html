@@ -1,0 +1,91 @@
+{% extends 'base.html'%}
+{% block head%}
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#enviar').click(function(e){
+            e.preventDefault();
+                var dataString = $('#form-control').serialize();
+
+
+            $.ajax({
+                type: "POST",
+                url: '',
+                data: dataString,
+                success: function(data) {
+                window.location.replace("");
+                }
+            });
+        });
+    });
+</script>
+{% endblock head%}
+
+
+{% block typeofbody %}
+<body>
+{% endblock %}
+{% block typeofheader %}
+  <header id="header">
+{% endblock %}
+{% block navbar %}
+<ul>
+  <li><a href="/">Inicio</a></li>
+  <li><a href="/catalogo">Catalogo Cuentas</a></li>
+  <li><a href="/periodoConta">Periodos</a></li>
+  <li>
+    <a href="/settings" class="icon fa-angle-down">Configuracion</a>
+    <ul>
+      <li><a href="/settings/password">Contrasenia</a></li>
+    </ul>
+  </li>
+<li><a href="/logout" class="button">Cerrar Sesion</a></li>
+</ul>
+{% endblock %}
+{% block content %}
+
+<section id="main" class="container">
+  <header>
+    <h2><i class="fa fa-plus"></i> Contratacion de empleados</h2>
+    <p>Registre una nueva contratacion</p>
+  </header>
+  <section class="box">
+    <form id="form-control" method="POST">
+    {% csrf_token%}
+      <div class="row uniform 50%">
+        <div class="6u 12u(mobilep)">
+          <label>DUI:</label>
+          <input type="text" name="dui" placeholder="(Sin guion)" class ="form-control">
+        </div>
+        <div class="6u 12u(mobilep)">
+          <label>Nombres</label>
+                <input type="text" name="nombres" class="form-control">
+        </div>
+      </div>
+      <div class="row uniform 50%">
+        <div class="6u 12u(mobilep)">
+          <label>Apellidos</label>
+                <input type="text" name="apellidos" class="form-control">
+        </div>
+        <div class="6u 12u(mobilep)">
+          <label>Puesto</label>
+                <select name="Puesto" class="form-control">
+                    <option value="Gerente"> Gerente
+                    </option>
+                    <option value="Sastre">Sastre
+                    </option>
+                </select>
+        </div>
+      </div>
+      <div class="row uniform">
+        <div class="12u">
+          <ul class="actions align-center">
+            <li><input type="button" value="Guardar" id="enviar" name="enviar" class="button"></li>
+            <li><a href="/contabilidadCostos/{{periodoId}}" class="button special">Regresar</a></li>
+          </ul>
+        </div>
+      </div>
+			<input type="hidden" value="{{periodoId}}" name="periodo" readonly="readonly">
+    </form>
+  </section>
+</section>
+{% endblock content %}

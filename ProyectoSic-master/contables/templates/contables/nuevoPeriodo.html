@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Nuevo Periodo</title>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#enviar').click(function(e){
+            e.preventDefault();
+                var dataString = $('#form-control').serialize();
+
+
+
+            $.ajax({
+                type: "POST",
+                url: '',
+                data: dataString,
+                success: function(data) {
+                window.location.replace("/periodoConta/");
+                }
+            });
+        });
+    });
+</script>
+{% endblock head %}
+{% block typeofbody %}
+<body>
+{% endblock %}
+{% block typeofheader %}
+  <header id="header">
+{% endblock %}
+{% block navbar %}
+<ul>
+  <li><a href="/">Inicio</a></li>
+  <li><a href="/catalogo">Catalogo Cuentas</a></li>
+  <li><a href="/periodoConta">Periodos</a></li>
+  <li>
+    <a href="/settings" class="icon fa-angle-down">Configuracion</a>
+    <ul>
+      <li><a href="/settings/password">Contrasenia</a></li>
+    </ul>
+  </li>
+<li><a href="/logout" class="button">Cerrar Sesion</a></li>
+</ul>
+{% endblock %}
+{% block content %}
+
+<section id="main" class="container">
+  <header>
+    <h2>Nuevo Periodo</h2>
+    <p> Selecione el inicio y fin del periodo</p>
+  </header>
+  <section class="box">
+    <form id="form-control" method="POST">
+    {% csrf_token%}
+      <div class="row uniform 50%">
+        <div class="6u 12u(mobilep)">
+          <label for="fecaini">Ingrese la fecha de inicio del periodo contable: </label>
+          <input type="date" id="fechaini" name="fechaIni" style="margin-left: 1%" >
+        </div>
+        <div class="6u 12u(mobilep)">
+          <label for="fechafin">Ingresa la fehca de fin del periodo contable: </label>
+          <input type="date" id="fechafin" name="fechaFin" style="margin-left: 3%">
+        </div>
+      </div>
+      <div class="row uniform">
+        <div class="12u">
+          <ul class="actions align-center">
+            <li><input type="submit" value="Guardar" /></li>
+            <li><a href="/periodoConta" class="button special">Regresar</a></li>
+          </ul>
+        </div>
+      </div>
+    </form>
+  </section>
+</section>
+{% endblock content %}

@@ -1,0 +1,77 @@
+ {% extends 'base.html' %}
+
+  {% block title %}
+  <title>Estados financieros</title>
+  {% endblock title %}
+
+  {% block typeofbody %}
+  <body>
+  {% endblock %}
+  {% block typeofheader %}
+    <header id="header">
+  {% endblock %}
+  {% block navbar %}
+  <ul>
+    <li><a href="/">Inicio</a></li>
+    <li><a href="/catalogo">Catalogo Cuentas</a></li>
+    <li><a href="/periodoConta">Periodos</a></li>
+    <li>
+      <a href="/settings" class="icon fa-angle-down">Configuracion</a>
+      <ul>
+        <li><a href="/settings/password">Contrasenia</a></li>
+      </ul>
+    </li>
+  <li><a href="/logout" class="button">Cerrar Sesion</a></li>
+  </ul>
+  {% endblock %}
+  {% block content %}
+
+  <section id="main" class="container">
+    <header>
+      <h2>Estados Financieros</h2>
+      <p> Seleccione una de las siguientes acciones</p>
+    </header>
+
+    <section class="box special features">
+      <div class="features-row">
+        <section>
+          <span class="icon major fa-area-chart accent1"></span>
+          <h3>Balance Comprobacion</h3>
+          <p>Vea el Balance comprobacion del periodo</p>
+          <ul class="actions vertical">
+            <li><a href="/balanceComprobacion/{{periodoId}}" class="button small" >Balance de comprobacion</a></li>
+          </ul>
+        </section>
+
+        <section>
+          <span class="icon major fa-area-chart accent2"></span>
+          <h3>Estado de Resultados</h3>
+          <p>Revise el estado de resultados del periodo</p>
+          <ul class="actions vertical">
+            <li><a href="/estadoResultado/{{periodoId}}" class="button small">Estado de resultados</a></li>
+          </ul>
+        </section>
+      </div>
+      <div class="features-row">
+        <section>
+          <span class="icon major fa-area-chart accent3"></span>
+          <h3> Estado de Capital</h3>
+          <p>Vea el estado de capital del periodo</p>
+          <ul class="actions vertical">
+            <li><a href="/estadoCapital/{{periodoId}}" class="button small">Estado de Capital</a></li>
+          </ul>
+        </section>
+
+        <section>
+          <span class="icon major fa-area-chart accent4"></span>
+          <h3>Balance General</h3>
+          <p>Revise el balance general del periodo</p>
+          <ul class="actions vertical">
+            <li><a href="/balanceGeneral/{{periodoId}}" class="button small" >Balance general</a></li>
+          </ul>
+        </section>
+
+      </div>
+      <a href="/contabilidadGeneral/{{periodoId}}" class="button small" >Regresar</a>
+    </section>
+{% endblock content %}

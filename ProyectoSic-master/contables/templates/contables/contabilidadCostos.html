@@ -1,0 +1,97 @@
+ {% extends 'base.html' %}
+
+  {% block title %}
+  <title>Contabilidad general</title>
+  {% endblock title %}
+
+  {% block typeofbody %}
+  <body>
+  {% endblock %}
+  {% block typeofheader %}
+    <header id="header">
+  {% endblock %}
+
+  {% block navbar %}
+  <ul>
+    <li><a href="/">Inicio</a></li>
+    <li><a href="/catalogo">Catalogo Cuentas</a></li>
+    <li><a href="/periodoConta">Periodos</a></li>
+    <li>
+      <a href="/settings" class="icon fa-angle-down">Configuracion</a>
+      <ul>
+        <li><a href="/settings/password">Contrasenia</a></li>
+      </ul>
+    </li>
+  <li><a href="/logout" class="button">Cerrar Sesion</a></li>
+  </ul>
+  {% endblock %}
+
+
+  {% block content %}
+
+  <section id="main" class="container">
+    <header>
+      <h2>Contabilidad de Costos</h2>
+      <p> Seleccione una de las siguientes acciones</p>
+    </header>
+
+    <section class="box special features">
+      <div class="features-row">
+        <section>
+          <span class="icon major fa-bolt accent2"></span>
+          <h3>Manejo de Ordenes</h3>
+          <p>Maneje las ordenes de fabricacion terminadas o en proceso</p>
+          <ul class="actions vertical">
+            <li><a class="button small" href="/manejoOrdenes/{{periodoId}}">IR</a></li>
+          </ul>
+        </section>
+        {%for per in period%}
+        {% if per.estadoPeriodo == True%}
+        <section>
+          <span class="icon major fa-area-chart accent3"></span>
+          <h3>Compra Materia Prima</h3>
+          <p>Registre Materia Prima Comprada</p>
+          <ul class="actions vertical">
+            <li><a class="button small" href="/compraMP/{{periodoId}}">IR</a></li>
+          </ul>
+        </section>
+        {% endif  %}
+        {% endfor  %}
+      </div>
+      <div class="features-row">
+      {%for per in period%}
+      {% if per.estadoPeriodo == True%}
+        <section>
+          <span class="icon major fa-bolt accent2"></span>
+          <h3>Contratacion Empleados</h3>
+          <p>Registre contratacion</p>
+          <ul class="actions vertical">
+            <li><a class="button small" href="/contratacion/{{periodoId}}">IR</a></li>
+          </ul>
+        </section>
+      {% endif  %}
+      {% endfor  %}
+      <section>
+          <span class="icon major fa-area-chart accent2"></span>
+          <h3>Planilla General</h3>
+          <p>Maneje la planilla general de la empresa</p>
+          <ul class="actions vertical">
+            <li><a class="button small" href="/planillaGeneral/{{periodoId}}">IR</a></li>
+          </ul>
+        </section>
+        </div>
+<div class="features-row">
+        <section>
+          <span class="icon major fa-area-chart accent2"></span>
+          <h3>Manejo Kardex</h3>
+          <p>Maneje el Kardex</p>
+          <ul class="actions vertical">
+            <li><a class="button small" href="/kardex/{{periodoId}}">IR</a></li>
+          </ul>
+        </section>
+      </div>
+
+      <a href="/menu/{{periodoId}}" class="button special small">Regresar</a>
+    </section>
+
+  {% endblock content %}

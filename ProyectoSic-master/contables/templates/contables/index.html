@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+  {% block title %}
+  <title>Inicio</title>
+  {% endblock title %}
+
+{% block typeofbody %}
+<body>
+{% endblock %}
+{% block typeofheader %}
+  <header id="header">
+{% endblock %}
+{% block navbar %}
+<ul>
+  <li><a href="/">Inicio</a></li>
+  <li><a href="/catalogo">Catalogo Cuentas</a></li>
+  <li><a href="/periodoConta">Periodos</a></li>
+  <li>
+    <a href="/settings" class="icon fa-angle-down">Configuracion</a>
+    <ul>
+      <li><a href="/settings/password">Contrasenia</a></li>
+    </ul>
+  </li>
+<li><a href="/logout" class="button">Cerrar Sesion</a></li>
+</ul>
+{% endblock %}
+{% block content %}
+
+  <!-- Main -->
+    <section id="main" class="container">
+
+      <section class="box special features">
+        <div class="features-row">
+          <section>
+            <span class="icon major fa-bolt accent2"></span>
+            <h3>Catalogo de Cuentas</h3>
+            <p>Vea el catalogo de cuentas</p>
+            <ul class="actions">
+              <li><a href="/catalogo" class="button">Ver</a></li>
+            </ul>
+          </section>
+          <section>
+            <span class="icon major fa-area-chart accent3"></span>
+            <h3>Periodos</h3>
+            <p> Administre los periodos contables</p>
+            <ul class="actions">
+              <li><a href="/periodoConta" class="button">Ver</a></li>
+            </ul>
+          </section>
+        </div>
+        <div class="features-row">
+          <section>
+            <span class="icon major fa-lock accent5"></span>
+            <h3>Opciones</h3>
+            <p>Cambie sus datos y contrasenia</p>
+            <ul class="actions">
+              <li><a href="/settings" class="button">Ver</a></li>
+            </ul>
+          </section>
+        </div>
+      </section>
+
+    </section>
+
+
+{% endblock content %}
